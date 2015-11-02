@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.feature "User Sign up" do
-  scenario "User creates a new account" do
+  scenario "creates an account with a valid credentials" do
     visit "/"
     fill_in "Email", with: "user@example.com"
     fill_in "Password", with: "abc123"
