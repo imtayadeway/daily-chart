@@ -6,6 +6,12 @@ class SubmissionsController < ApplicationController
   end
 
   def create
+    current_user.chart.submissions.create(data: submission_params)
+  end
 
+  private
+
+  def submission_params
+    params.require(:submission)
   end
 end
