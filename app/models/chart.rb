@@ -18,7 +18,7 @@ class Chart < ActiveRecord::Base
   private
 
   def submission_days
-    first_submission.date..(Date.today - 1)
+    first_submission.date..(Time.zone.today - 1)
   end
 
   def first_submission
