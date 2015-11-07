@@ -1,6 +1,7 @@
 class Submission < ActiveRecord::Base
   belongs_to :chart
 
+  validates :created_at, uniqueness: { scope: :chart }
   validate :check_data
 
   before_save :set_score

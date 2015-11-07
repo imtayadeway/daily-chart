@@ -16,4 +16,16 @@ RSpec.describe Submission do
       expect(submission).to be_invalid
     end
   end
+
+  describe "date" do
+    specify "only one submission can be made per day" do
+      Timecop.freeze do
+        chart = Chart.create(items: [Item.new(name: "foo")])
+        chart.submissions.create(data: { "foo" => "1" })
+
+        submission = chart.submissions.create(data: { "foo" => "1" })
+        expect(submission).to be_invalid
+      end
+    end
+  end
 end
