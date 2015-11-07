@@ -2,7 +2,7 @@ class Submission < ActiveRecord::Base
   belongs_to :chart
 
   validate :date_validity
-  validate :check_data
+  validate :data_validity
 
   before_save :set_score
 
@@ -17,7 +17,7 @@ class Submission < ActiveRecord::Base
     errors.add(:created_at, "already submitted today")
   end
 
-  def check_data
+  def data_validity
     return if ChecksSubmissionData.ok?(chart, data)
     errors.add(:data, "malformed")
   end
