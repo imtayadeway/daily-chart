@@ -1,12 +1,21 @@
 class Submission < ActiveRecord::Base
   belongs_to :chart
 
-  validates :created_at, uniqueness: { scope: :chart }
+  validate :date_validity
   validate :check_data
 
   before_save :set_score
 
+  def date
+    created_at.try(:to_date)
+  end
+
   private
+
+  def date_validity
+    return unless chart.submissions.where("DATE(created_at) = ?", Time.zone.now.to_date).any?
+    errors.add(:created_at, "already submitted today")
+  end
 
   def check_data
     return if ChecksSubmissionData.ok?(chart, data)
