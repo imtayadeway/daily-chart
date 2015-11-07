@@ -4,7 +4,7 @@ require "support/features/clearance_helpers"
 RSpec.feature "User creates a chart" do
   scenario "happy path" do
     sign_in
-    visit "/chart/new"
+    visit new_chart_path
     click_button "Add an item"
     fill_in "chart_items_attributes_0_name", with: "Floss"
     click_button "Add an item"
