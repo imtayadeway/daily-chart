@@ -48,7 +48,7 @@ feature "Visitor resets password" do
     message = ActionMailer::Base.deliveries.any? do |email|
       email.to == [recipient] &&
       email.subject =~ /#{subject}/i &&
-      email.html_part.body =~ /#{body}/
+      email.html_part.body =~ /#{body}/ &&
       email.text_part.body =~ /#{body}/
     end
 
