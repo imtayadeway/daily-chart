@@ -14,13 +14,11 @@ class ChartsController < ApplicationController
   def create
     @chart = current_user.build_chart(chart_params)
     if @chart.save
-      redirect_to @chart
+      flash[:notice] = "Created new chart"
+      redirect_to dashboard_path
     else
       render :new
     end
-  end
-
-  def show
   end
 
   private
