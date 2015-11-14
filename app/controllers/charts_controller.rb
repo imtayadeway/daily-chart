@@ -7,7 +7,7 @@ class ChartsController < ApplicationController
       redirect_to dashboard_path
     else
       @chart = Chart.new
-      2.times { @chart.items.build }
+      @chart.items.build
     end
   end
 

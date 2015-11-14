@@ -194,6 +194,7 @@ DEPENDENCIES
   rspec-rails (~> 3.0)
   rubocop
   sdoc (~> 0.4.0)
+  sprockets-rails
   timecop
 
 BUNDLED WITH
