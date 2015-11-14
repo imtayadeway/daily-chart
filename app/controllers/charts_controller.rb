@@ -2,8 +2,13 @@ class ChartsController < ApplicationController
   before_action :require_login
 
   def new
-    @chart = Chart.new
-    2.times { @chart.items.build }
+    if current_chart
+      flash[:alert] = "You already have a chart"
+      redirect_to dashboard_path
+    else
+      @chart = Chart.new
+      2.times { @chart.items.build }
+    end
   end
 
   def create
