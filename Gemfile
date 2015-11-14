@@ -28,6 +28,7 @@ end
 
 group :development do
   gem "rubocop"
+  gem "annotate"
 end
 
 group :test do
