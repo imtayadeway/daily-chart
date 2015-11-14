@@ -6,7 +6,13 @@ class SubmissionsController < ApplicationController
   end
 
   def create
-    current_chart.submissions.create(data: submission_params)
+    submission = current_chart.submissions.create(data: submission_params)
+    if submission.valid?
+      flash[:notice] = "Chart submitted for #{Time.zone.today}"
+    else
+      flash[:alert] = "Chart already submitted for #{Time.zone.today}"
+    end
+    redirect_to dashboard_path
   end
 
   private

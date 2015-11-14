@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   end
 
   resource :chart
+  resource :dashboard
   resources :submissions
 
   get "/sign_in" => "clearance/sessions#new", as: "sign_in"
