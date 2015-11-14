@@ -5,7 +5,7 @@ RSpec.describe Submission do
     it "is valid when the data matches the chart's items" do
       chart = Chart.create(items: [Item.new(name: "foo")])
       data = { "foo" => "1" }
-      submission = chart.submissions.build(data: data)
+      submission = chart.submissions.create(data: data)
       expect(submission).to be_valid
     end
 

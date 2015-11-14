@@ -1,7 +1,7 @@
 class Submission < ActiveRecord::Base
   belongs_to :chart
 
-  validate :date_validity
+  validate :date_validity, on: :create
   validate :data_validity
 
   before_save :set_score
