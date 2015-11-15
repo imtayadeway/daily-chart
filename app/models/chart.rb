@@ -18,38 +18,18 @@ class Chart < ActiveRecord::Base
   end
 
   def scores
-    submission_days.map do |date|
-      submission = submissions.detect { |sub| sub.date == date }
-      if submission
-        Score.new(date, submission.score)
-      else
-        Score.new(date, 0)
-      end
+    submitted_scores = submissions.to_a
+    ScorableDays.for(self).map do |date|
+      value = if submitted_scores.first.date == date
+                submitted_scores.shift.score
+              else
+                0
+              end
+      Score.new(date, value)
     end
   end
 
   def submission_pending?
     submissions.pending?
-  end
-
-  private
-
-  def submission_days
-    return [] unless first_submission_date
-    first_submission_date..last_submission_date
-  end
-
-  def first_submission_date
-    return nil if submissions.empty?
-    submissions.first.date
-  end
-
-  def last_submission_date
-    return nil if submissions.empty?
-    if submissions.last.date.today?
-      submissions.last.date
-    else
-      (Time.zone.today - 1)
-    end
   end
 end
