@@ -2,12 +2,11 @@
 #
 # Table name: submissions
 #
-#  id         :integer          not null, primary key
-#  score      :integer
-#  data       :json
-#  chart_id   :integer
-#  created_at :datetime
-#  updated_at :datetime
+#  id       :integer          not null, primary key
+#  score    :integer
+#  data     :json
+#  chart_id :integer
+#  date     :string
 #
 
 require "rails_helper"
@@ -40,6 +39,15 @@ RSpec.describe Submission do
       Timecop.freeze(Time.zone.now.at_beginning_of_day + 1.minute) do
         submission = chart.submissions.create(data: { "foo" => "1" })
         expect(submission).to be_invalid
+      end
+    end
+
+    specify "creating a submission sets today's date on it" do
+      chart = Chart.create(items: [Item.new(name: "foo")])
+
+      Timecop.freeze do
+        submission = chart.submissions.create(data: { "foo" => "1" })
+        expect(submission.date).to eq(Time.zone.today)
       end
     end
   end
