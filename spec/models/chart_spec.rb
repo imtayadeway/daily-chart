@@ -16,7 +16,7 @@ RSpec.describe Chart do
       Timecop.freeze(Time.zone.today - 2) { chart.submissions.create(data: { "foo" => "1" }) }
       Timecop.freeze(Time.zone.today - 1) { chart.submissions.create(data: { "foo" => "1" }) }
 
-      expect(chart.scores).to eq([1, 1, 1])
+      expect(chart.scores.map(&:value)).to eq([1, 1, 1])
     end
 
     it "fills in days with no submission" do
@@ -24,7 +24,7 @@ RSpec.describe Chart do
       Timecop.freeze(Time.zone.today - 3) { chart.submissions.create(data: { "foo" => "1" }) }
       Timecop.freeze(Time.zone.today - 1) { chart.submissions.create(data: { "foo" => "1" }) }
 
-      expect(chart.scores).to eq([1, 0, 1])
+      expect(chart.scores.map(&:value)).to eq([1, 0, 1])
     end
 
     it "counts today's score if submitted" do
@@ -32,7 +32,7 @@ RSpec.describe Chart do
       Timecop.freeze(Time.zone.today - 1) { chart.submissions.create(data: { "foo" => "1" }) }
       Timecop.freeze(Time.zone.today) { chart.submissions.create(data: { "foo" => "1" }) }
 
-      expect(chart.scores).to eq([1, 1])
+      expect(chart.scores.map(&:value)).to eq([1, 1])
     end
   end
 end

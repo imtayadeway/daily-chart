@@ -8,4 +8,8 @@ class Dashboard
   def submission_pending?
     chart.submission_pending?
   end
+
+  def scores
+    chart.scores
+  end
 end

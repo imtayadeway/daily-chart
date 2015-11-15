@@ -1,3 +1,15 @@
 <% if @dashboard.submission_pending? %>
   <%= link_to "Submit today's chart", new_submission_path %>
 <% end %>
+<table>
+  <tr>
+    <th>Date</th>
+    <th>Score</th>
+  </tr>
+  <% @dashboard.scores.each do |score| %>
+    <tr>
+      <td><%= score.date %></td>
+      <td><%= score.value %></td>
+    </tr>
+  <% end %>
+</table>
