@@ -18,8 +18,6 @@ class Submission < ActiveRecord::Base
   before_validation :set_date
   before_save :set_score
 
-  scope :by_date, -> { order(:date) }
-
   def date
     Date.parse(read_attribute(:date))
   end

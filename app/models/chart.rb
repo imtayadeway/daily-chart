@@ -9,7 +9,7 @@
 class Chart < ActiveRecord::Base
   belongs_to :user
   has_many :items
-  has_many :submissions
+  has_many :submissions, -> { order(:date) }
 
   accepts_nested_attributes_for :items
 
@@ -30,6 +30,6 @@ class Chart < ActiveRecord::Base
   end
 
   def first_submission
-    submissions.by_date.first
+    submissions.first
   end
 end
