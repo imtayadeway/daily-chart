@@ -30,6 +30,6 @@ class Chart < ActiveRecord::Base
   end
 
   def first_submission
-    submissions.min_by(&:date)
+    submissions.by_date.first
   end
 end
