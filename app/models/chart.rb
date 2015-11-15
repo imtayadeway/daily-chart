@@ -18,15 +18,7 @@ class Chart < ActiveRecord::Base
   end
 
   def scores
-    submitted_scores = submissions.to_a
-    ScorableDays.for(self).map do |date|
-      value = if submitted_scores.first.date == date
-                submitted_scores.shift.score
-              else
-                0
-              end
-      Score.new(date, value)
-    end
+    CollectsScores.all_time(ScorableDays.for(self), submissions.to_a)
   end
 
   def submission_pending?
