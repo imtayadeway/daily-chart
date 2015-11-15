@@ -18,6 +18,10 @@ class Submission < ActiveRecord::Base
   before_validation :set_date
   before_save :set_score
 
+  def self.pending?
+    find_by(date: Time.zone.today.to_s).nil?
+  end
+
   def date
     Date.parse(read_attribute(:date))
   end

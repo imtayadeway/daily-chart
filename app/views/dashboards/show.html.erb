@@ -1,0 +1,3 @@
+<% if @dashboard.submission_pending? %>
+  <%= link_to "Submit today's chart", new_submission_path %>
+<% end %>

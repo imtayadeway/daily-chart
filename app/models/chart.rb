@@ -23,6 +23,10 @@ class Chart < ActiveRecord::Base
     end.map(&:score)
   end
 
+  def submission_pending?
+    submissions.pending?
+  end
+
   private
 
   def submission_days
