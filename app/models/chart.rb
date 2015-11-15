@@ -30,10 +30,18 @@ class Chart < ActiveRecord::Base
   private
 
   def submission_days
-    first_submission.date..(Time.zone.today - 1)
+    first_submission_date..last_submission_date
   end
 
-  def first_submission
-    submissions.first
+  def first_submission_date
+    submissions.first.date
+  end
+
+  def last_submission_date
+    if submissions.last.date.today?
+      submissions.last.date
+    else
+      (Time.zone.today - 1)
+    end
   end
 end

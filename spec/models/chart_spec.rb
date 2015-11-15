@@ -26,5 +26,13 @@ RSpec.describe Chart do
 
       expect(chart.scores).to eq([1, 0, 1])
     end
+
+    it "counts today's score if submitted" do
+      chart = Chart.create(items: [Item.new(name: "foo")])
+      Timecop.freeze(Time.zone.today - 1) { chart.submissions.create(data: { "foo" => "1" }) }
+      Timecop.freeze(Time.zone.today) { chart.submissions.create(data: { "foo" => "1" }) }
+
+      expect(chart.scores).to eq([1, 1])
+    end
   end
 end
