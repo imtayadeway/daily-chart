@@ -1,7 +1,7 @@
 <% if @dashboard.submission_pending? %>
   <%= link_to "Submit today's chart", new_submission_path %>
 <% end %>
-<table>
+<table class="table table-bordered">
   <tr>
     <th>Date</th>
     <th>Score</th>
