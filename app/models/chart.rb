@@ -17,11 +17,19 @@ class Chart < ActiveRecord::Base
     items.map(&:name)
   end
 
-  def scores
-    CollectsScores.all_time(ScorableDays.for(self), submissions.to_a)
-  end
-
   def submission_pending?
     submissions.pending?
+  end
+
+  def scorables
+    Scorables.for(ScorableDays.for(self), submissions.to_a)
+  end
+
+  def scores
+    scorables.map(&:score)
+  end
+
+  def percentages
+    scorables.map(&:percent)
   end
 end

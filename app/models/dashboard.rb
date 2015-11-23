@@ -9,7 +9,7 @@ class Dashboard
     chart.submission_pending?
   end
 
-  def scores
-    chart.scores
+  def scorables
+    chart.scorables
   end
 end

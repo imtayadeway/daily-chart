@@ -19,4 +19,18 @@ RSpec.feature "user visits dashboard" do
 
     expect(page).to have_no_link("Submit today's chart", href: new_submission_path)
   end
+
+  scenario "having missed some submissions" do
+    user = create(:user)
+    chart = user.create_chart(items_attributes: [{ name: "Exercise" }])
+
+    Timecop.freeze(Time.zone.today - 2) do
+      chart.submissions.create(data: { "Exercise" => "1" })
+    end
+
+    visit dashboard_path(as: user)
+
+    expect(page).to have_content((Time.zone.today - 1).to_s)
+    expect(page).to have_content("0.00%")
+  end
 end

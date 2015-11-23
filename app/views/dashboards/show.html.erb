@@ -5,11 +5,13 @@
   <tr>
     <th>Date</th>
     <th>Score</th>
+    <th>Percent</th>
   </tr>
-  <% @dashboard.scores.each do |score| %>
+  <% @dashboard.scorables.each do |scorable| %>
     <tr>
-      <td><%= score.date %></td>
-      <td><%= score.value %></td>
+      <td><%= scorable.date %></td>
+      <td><%= scorable.score %></td>
+      <td><%= number_to_percentage(scorable.percent, precision: 2) %></td>
     </tr>
   <% end %>
 </table>

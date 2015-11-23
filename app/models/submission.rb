@@ -30,6 +30,10 @@ class Submission < ActiveRecord::Base
     write_attribute(:date, d.to_s)
   end
 
+  def percent
+    score.to_f / max_score * 100.0
+  end
+
   private
 
   def data_validity
@@ -43,5 +47,9 @@ class Submission < ActiveRecord::Base
 
   def set_date
     self.date = Time.zone.today
+  end
+
+  def max_score
+    data.size
   end
 end

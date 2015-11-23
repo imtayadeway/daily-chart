@@ -12,6 +12,16 @@
 require "rails_helper"
 
 RSpec.describe Submission do
+  describe "#percent" do
+    it "returns the score as a percentage of max score" do
+      chart = Chart.create(items: [Item.new(name: "foo"), Item.new(name: "bar")])
+      data = { "foo" => "1", "bar" => "0" }
+      submission = chart.submissions.create(data: data)
+
+      expect(submission.percent).to eq(50)
+    end
+  end
+
   describe "data" do
     it "is valid when the data matches the chart's items" do
       chart = Chart.create(items: [Item.new(name: "foo")])
