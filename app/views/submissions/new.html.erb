@@ -1,8 +1,10 @@
-<%= form_for :submission, url: submissions_path do |f| %>
+<%= form_for :submission, url: submissions_path, class: "form-horizontal" do |f| %>
   <% @chart.items.each do |item| %>
-    <%= f.label item.name %>
-    <%= f.check_box item.name %>
+    <div class="form-group">
+      <%= f.check_box item.name %>
+      <%= f.label item.name %>
+    </div>
   <% end %>
 
-  <%= f.submit "Submit" %>
+  <div class="form-group"><%= f.submit "Submit" %></div>
 <% end %>
