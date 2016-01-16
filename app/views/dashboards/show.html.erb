@@ -4,9 +4,15 @@
 <script>
  $(function () {
    $("#weeklyScores").highcharts({
+     chart: {
+       type: "spline"
+     },
      title: {
        text: "Weekly Scores",
        x: -20 //center
+     },
+     legend: {
+       enabled: false
      },
      xAxis: {
        categories: <%= @dashboard.last_seven_days.to_s.html_safe %>
@@ -24,6 +30,14 @@
      tooltip: {
        valueSuffix: "%"
      },
+     plotOptions: {
+       spline: {
+         lineWidth: 4,
+         marker: {
+           enabled: false
+         }
+       }
+     },
      series: [{
        name: 'Score',
        data: <%= @dashboard.weekly_percentages %>
@@ -33,9 +47,15 @@
 
  $(function () {
    $("#monthlyScores").highcharts({
+     chart: {
+       type: "spline"
+     },
      title: {
        text: "Monthly Scores",
        x: -20 //center
+     },
+     legend: {
+       enabled: false
      },
      xAxis: {
        categories: <%= @dashboard.last_thirty_days.to_s.html_safe %>
@@ -52,6 +72,14 @@
      },
      tooltip: {
        valueSuffix: "%"
+     },
+     plotOptions: {
+       spline: {
+         lineWidth: 4,
+         marker: {
+           enabled: false
+         }
+       }
      },
      series: [{
        name: 'Score',
