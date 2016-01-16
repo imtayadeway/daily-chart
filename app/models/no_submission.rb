@@ -1,4 +1,5 @@
 class NoSubmission
+  include DateFormatters
   attr_reader :date
 
   def initialize(date)

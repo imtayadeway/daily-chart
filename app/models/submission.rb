@@ -10,6 +10,7 @@
 #
 
 class Submission < ActiveRecord::Base
+  include DateFormatters
   belongs_to :chart
 
   validates :date, uniqueness: true, presence: true

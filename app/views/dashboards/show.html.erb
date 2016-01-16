@@ -1,17 +1,64 @@
 <% if @dashboard.submission_pending? %>
   <%= link_to "Submit today's chart", new_submission_path %>
 <% end %>
-<table class="table table-bordered">
-  <tr>
-    <th>Date</th>
-    <th>Score</th>
-    <th>Percent</th>
-  </tr>
-  <% @dashboard.scorables.each do |scorable| %>
-    <tr>
-      <td><%= scorable.date %></td>
-      <td><%= scorable.score %></td>
-      <td><%= number_to_percentage(scorable.percent, precision: 2) %></td>
-    </tr>
-  <% end %>
-</table>
+<script>
+ $(function () {
+   $("#weeklyScores").highcharts({
+     title: {
+       text: "Weekly Scores",
+       x: -20 //center
+     },
+     xAxis: {
+       categories: <%= @dashboard.last_seven_days.to_s.html_safe %>
+     },
+     yAxis: {
+       title: {
+         text: "Percent (%)"
+       },
+       plotLines: [{
+         value: 0,
+         width: 1,
+         color: '#808080'
+       }]
+     },
+     tooltip: {
+       valueSuffix: "%"
+     },
+     series: [{
+       name: 'Score',
+       data: <%= @dashboard.weekly_percentages %>
+     }]
+   });
+ });
+
+ $(function () {
+   $("#monthlyScores").highcharts({
+     title: {
+       text: "Monthly Scores",
+       x: -20 //center
+     },
+     xAxis: {
+       categories: <%= @dashboard.last_thirty_days.to_s.html_safe %>
+     },
+     yAxis: {
+       title: {
+         text: "Percent (%)"
+       },
+       plotLines: [{
+         value: 0,
+         width: 1,
+         color: '#808080'
+       }]
+     },
+     tooltip: {
+       valueSuffix: "%"
+     },
+     series: [{
+       name: 'Score',
+       data: <%= @dashboard.monthly_percentages %>
+     }]
+   });
+ });
+</script>
+<div id="weeklyScores"></div>
+<div id="monthlyScores"></div>
