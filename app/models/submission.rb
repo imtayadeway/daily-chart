@@ -35,6 +35,10 @@ class Submission < ActiveRecord::Base
     score.to_f / max_score * 100.0
   end
 
+  def score_for(item_name)
+    data[item_name].to_i
+  end
+
   private
 
   def data_validity

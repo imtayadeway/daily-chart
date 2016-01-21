@@ -39,6 +39,6 @@ class Dashboard
   end
 
   def weekly_score_for(item)
-    last(7).map { |scorable| scorable.data[item.name].to_i }.reduce(:+)
+    last(7).map { |scorable| scorable.score_for(item.name) }.reduce(:+)
   end
 end
