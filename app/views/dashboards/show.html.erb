@@ -2,7 +2,7 @@
   <%= link_to "Submit today's chart", new_submission_path %>
 <% end %>
 <div id="weeklyScores"></div>
-<div id="monthlyScores"></div>
+<div id="allTimeScores"></div>
 <script>
  $(function () {
    $("#weeklyScores").highcharts({
@@ -42,25 +42,28 @@
      },
      series: [{
        name: 'Score',
-       data: <%= @dashboard.weekly_percentages %>
+       data: <%= @dashboard.daily_percentages %>
      }]
    });
  });
 
  $(function () {
-   $("#monthlyScores").highcharts({
+   $("#allTimeScores").highcharts({
      chart: {
        type: "spline"
      },
      title: {
-       text: "Monthly Scores",
+       text: "All Time",
        x: -20 //center
      },
      legend: {
        enabled: false
      },
      xAxis: {
-       categories: <%= @dashboard.last_thirty_days.to_s.html_safe %>
+       categories: <%= @dashboard.weeks_all_time.to_s.html_safe %>,
+       title: {
+         text: "Week no."
+       }
      },
      yAxis: {
        title: {
@@ -85,7 +88,7 @@
      },
      series: [{
        name: 'Score',
-       data: <%= @dashboard.monthly_percentages %>
+       data: <%= @dashboard.weekly_averages %>
      }]
    });
  });

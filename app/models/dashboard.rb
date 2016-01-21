@@ -10,16 +10,18 @@ class Dashboard
     last(7).map(&:weekday)
   end
 
-  def weekly_percentages
+  def daily_percentages
     last(7).map(&:percent)
   end
 
-  def last_thirty_days
-    last(30).map(&:day)
+  def weekly_averages
+    scorables.each_slice(7).map do |week|
+      week.map(&:percent).inject(:+) / 7
+    end
   end
 
-  def monthly_percentages
-    last(30).map(&:percent)
+  def weeks_all_time
+    1.upto((scorables.size / 7) + 1).to_a
   end
 
   private
