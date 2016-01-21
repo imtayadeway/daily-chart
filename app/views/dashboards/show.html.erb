@@ -6,6 +6,7 @@
   <div class="row">
     <div id="weeklyScores"></div>
   </div>
+  </br>
   <div class="row">
     <div id="allTimeScores"></div>
   </div>
@@ -44,7 +45,10 @@
        enabled: false
      },
      xAxis: {
-       categories: <%= @dashboard.last_seven_days.to_s.html_safe %>
+       categories: <%= @dashboard.last_seven_days.to_s.html_safe %>,
+       title: {
+         text: "Day"
+       }
      },
      yAxis: {
        title: {
