@@ -16,7 +16,7 @@ class Dashboard
 
   def weekly_averages
     scorables.each_slice(7).map do |week|
-      week.map(&:percent).inject(:+) / 7
+      week.map(&:percent).inject(:+) / week.size
     end
   end
 
