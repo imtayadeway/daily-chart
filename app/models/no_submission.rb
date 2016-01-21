@@ -13,4 +13,8 @@ class NoSubmission
   def percent
     0.0
   end
+
+  def data
+    {}
+  end
 end

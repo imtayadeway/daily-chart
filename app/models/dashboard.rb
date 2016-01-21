@@ -24,9 +24,21 @@ class Dashboard
     1.upto((scorables.size / 7) + 1).to_a
   end
 
+  def best_this_week
+    chart.items.max_by { |item| weekly_score_for(item) }.name
+  end
+
+  def worst_this_week
+    chart.items.min_by { |item| weekly_score_for(item) }.name
+  end
+
   private
 
   def last(x_days)
     scorables.last(x_days)
+  end
+
+  def weekly_score_for(item)
+    last(7).map { |scorable| scorable.data[item.name].to_i }.reduce(:+)
   end
 end
