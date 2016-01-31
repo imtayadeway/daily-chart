@@ -11,8 +11,10 @@ class Stats
   end
 
   def worst_item
-    items.min_by { |item| total_score_for(item) }.name
+    items.min_by { |item| total_score_for(item.name) }.name
   end
+
+  private
 
   def total_score_for(item_name)
     scorables.map { |scorable| scorable.score_for(item_name) }.reduce(:+)
