@@ -46,7 +46,7 @@ class Chart < ActiveRecord::Base
   end
 
   def weeks_all_time
-    EnumeratesWeeks.for(scorables)
+    EnumeratesWeeks.for(scorables.size)
   end
 
   def best_this_week

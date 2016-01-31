@@ -1,5 +1,5 @@
 class EnumeratesWeeks
-  def self.for(scorables)
-    1.upto((scorables.size / 7) + 1).to_a
+  def self.for(days)
+    1.upto((days / 7) + 1).to_a
   end
 end
