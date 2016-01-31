@@ -1,4 +1,4 @@
-require_relative "../../app/models/calculates_averages"
+require_relative "../../app/services/calculates_averages"
 require "spec_helper"
 
 RSpec.describe CalculatesAverages do

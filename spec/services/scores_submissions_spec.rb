@@ -1,4 +1,4 @@
-require_relative "../../app/models/scores_submissions"
+require_relative "../../app/services/scores_submissions"
 require "spec_helper"
 
 RSpec.describe ScoresSubmissions do

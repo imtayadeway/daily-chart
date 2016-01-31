@@ -1,4 +1,4 @@
-require_relative "../../app/models/checks_submission_data"
+require_relative "../../app/services/checks_submission_data"
 require "spec_helper"
 
 RSpec.describe ChecksSubmissionData do

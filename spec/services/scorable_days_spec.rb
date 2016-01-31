@@ -1,6 +1,6 @@
 require "active_support/core_ext/time"
 Time.zone ||= "UTC"
-require_relative "../../app/models/scorable_days"
+require_relative "../../app/services/scorable_days"
 require "spec_helper"
 
 RSpec.describe ScorableDays do

@@ -1,4 +1,4 @@
-require_relative "../../app/models/enumerates_weeks"
+require_relative "../../app/services/enumerates_weeks"
 require "spec_helper"
 
 RSpec.describe EnumeratesWeeks do

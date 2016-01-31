@@ -1,4 +1,4 @@
-require_relative "../../app/models/stats"
+require_relative "../../app/services/stats"
 require "spec_helper"
 
 RSpec.describe Stats do

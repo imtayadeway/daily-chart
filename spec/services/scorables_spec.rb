@@ -1,4 +1,5 @@
-require_relative "../../app/models/scorables"
+require_relative "../../app/services/scorables"
+require "date_formatters"
 require_relative "../../app/models/no_submission"
 require "active_support/core_ext/time"
 Time.zone ||= "UTC"
