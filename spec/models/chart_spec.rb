@@ -29,7 +29,7 @@ RSpec.describe Chart do
 
     it "counts today's score if submitted" do
       chart = Chart.create(items: [Item.new(name: "foo")])
-      Timecop.freeze(Time.zone.today - 1) { chart.submissions.create(data: { "foo" => "1" }) }
+      Timecop.freeze(Time.zone.yesterday) { chart.submissions.create(data: { "foo" => "1" }) }
       Timecop.freeze(Time.zone.today) { chart.submissions.create(data: { "foo" => "1" }) }
 
       expect(chart.scores).to eq([1, 1])
@@ -56,7 +56,7 @@ RSpec.describe Chart do
 
     it "counts today's percentage if submitted" do
       chart = Chart.create(items: [Item.new(name: "foo")])
-      Timecop.freeze(Time.zone.today - 1) { chart.submissions.create(data: { "foo" => "1" }) }
+      Timecop.freeze(Time.zone.yesterday) { chart.submissions.create(data: { "foo" => "1" }) }
       Timecop.freeze(Time.zone.today) { chart.submissions.create(data: { "foo" => "1" }) }
 
       expect(chart.percentages).to eq([100, 100])
