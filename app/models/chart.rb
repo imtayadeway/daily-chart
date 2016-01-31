@@ -22,7 +22,7 @@ class Chart < ActiveRecord::Base
   end
 
   def scorables
-    Scorables.for(ScorableDays.for(self), submissions.to_a)
+    @scorables ||= Scorables.for(ScorableDays.for(self), submissions.to_a)
   end
 
   def scores
@@ -50,16 +50,20 @@ class Chart < ActiveRecord::Base
   end
 
   def best_this_week
-    Stats.new(last(7), items).best_item
+    stats.best_item
   end
 
   def worst_this_week
-    Stats.new(last(7), items).worst_item
+    stats.worst_item
   end
 
   private
 
   def last(x_days)
     scorables.last(x_days)
+  end
+
+  def stats
+    @stats ||= Stats.new(last(7), items)
   end
 end
