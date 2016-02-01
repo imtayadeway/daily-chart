@@ -32,7 +32,7 @@ class Submission < ActiveRecord::Base
   end
 
   def percent
-    score.to_f / max_score * 100.0
+    (score.to_f / max_score * 100.0).round(2)
   end
 
   def score_for(item_name)
