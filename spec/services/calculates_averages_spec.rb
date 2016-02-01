@@ -40,4 +40,14 @@ RSpec.describe CalculatesAverages do
 
     expect(described_class.for(scorables)).to eq [40, 80]
   end
+
+  it "rounds to two decimal places" do
+    scorables = [
+      double("scorable 1", percent: 2),
+      double("scorable 2", percent: 3),
+      double("scorable 3", percent: 5)
+    ]
+
+    expect(described_class.for(scorables)).to eq [3.33]
+  end
 end
