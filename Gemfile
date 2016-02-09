@@ -1,5 +1,7 @@
 source "https://rubygems.org"
 
+ruby "2.2.4"
+
 gem "rails", github: "rails/rails", branch: "4-2-stable"
 
 gem "pg"
