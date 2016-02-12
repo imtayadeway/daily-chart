@@ -11,6 +11,9 @@
     <div class="container">
       <div class="navbar-inner">
         <%= link_to "Daily Chart", root_path, class: "navbar-brand" %>
+        <ul class="nav navbar-nav">
+          <li><%= link_to "Edit", edit_chart_path %></li>
+        </ul>
         <ul class="nav navbar-nav navbar-right">
           <li>
             <% if signed_in? -%>

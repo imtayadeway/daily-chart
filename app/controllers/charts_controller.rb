@@ -21,6 +21,21 @@ class ChartsController < ApplicationController
     end
   end
 
+  def edit
+    @chart = current_chart
+  end
+
+  def update
+    @chart = current_chart
+    @chart.items.clear
+    if @chart.update(chart_params)
+      flash[:notice] = "Edited chart"
+      redirect_to dashboard_path
+    else
+      render :edit
+    end
+  end
+
   private
 
   def chart_params

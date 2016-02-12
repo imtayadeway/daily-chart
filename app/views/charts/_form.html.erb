@@ -1,0 +1,15 @@
+<button id="addItem">Add an item</button>
+
+<%= form_for @chart, url: chart_path do |f| %>
+  <div id="items">
+    <%= f.fields_for :items do |ff| %>
+      <div class="item">
+        <%= ff.label :name %>
+        <%= ff.text_field :name %>
+      </div>
+    <% end %>
+  </div>
+  <div>
+    <%= f.submit "Submit" %>
+  </div>
+<% end %>
