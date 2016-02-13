@@ -8,9 +8,9 @@ Rails.application.routes.draw do
              only: [:create, :edit, :update]
   end
 
-  resource :chart
-  resource :dashboard
-  resources :submissions
+  resource :chart, only: [:new, :create, :edit, :update]
+  resource :dashboard, only: :show
+  resources :submissions, only: [:new, :create]
 
   get "/sign_in" => "clearance/sessions#new", as: "sign_in"
   delete "/sign_out" => "clearance/sessions#destroy", as: "sign_out"
