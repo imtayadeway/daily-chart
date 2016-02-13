@@ -1,15 +1,17 @@
-<button id="addItem">Add an item</button>
-
 <%= form_for @chart, url: chart_path do |f| %>
   <div id="items">
     <%= f.fields_for :items do |ff| %>
-      <div class="item">
-        <%= ff.label :name %>
+      <div class="item" id="item_<%= ff.index %>">
+        <%= ff.label "#{ff.index + 1}" %>
         <%= ff.text_field :name %>
+        <button type="button" class="removeItem" id="remove_item_<%= ff.index %>">
+          <span class="glyphicon glyphicon-remove"></span>
+        </button>
       </div>
     <% end %>
   </div>
   <div>
-    <%= f.submit "Submit" %>
+    <button type="button" class="btn btn-default" id="addItem">Add an item</button>
+    <%= f.submit "Submit", class: "btn btn-submit" %>
   </div>
 <% end %>
