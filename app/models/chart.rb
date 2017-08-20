@@ -20,12 +20,4 @@ class Chart < ActiveRecord::Base
   def submission_pending?
     submissions.pending?
   end
-
-  def scores
-    scorables.map(&:score)
-  end
-
-  def percentages
-    scorables.map(&:percent)
-  end
 end
