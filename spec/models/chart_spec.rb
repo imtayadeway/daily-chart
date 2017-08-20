@@ -9,7 +9,7 @@
 require "rails_helper"
 
 RSpec.describe Chart do
-  describe "#scores" do
+  xdescribe "#scores" do
     it "returns the score for each submissions" do
       chart = Chart.create(items: [Item.new(name: "foo")])
       Timecop.freeze(Time.zone.today - 3) { chart.submissions.create(data: { "foo" => "1" }) }
@@ -36,7 +36,7 @@ RSpec.describe Chart do
     end
   end
 
-  describe "#percentages" do
+  xdescribe "#percentages" do
     it "returns the percentage for each submissions" do
       chart = Chart.create(items: [Item.new(name: "foo")])
       Timecop.freeze(Time.zone.today - 3) { chart.submissions.create(data: { "foo" => "1" }) }
@@ -63,7 +63,7 @@ RSpec.describe Chart do
     end
   end
 
-  describe "#last_seven_days" do
+  xdescribe "#last_seven_days" do
     it "counts today if it's been submitted" do
       chart = Chart.create(items: [Item.new(name: "foo")])
       6.downto(0) do |n|
