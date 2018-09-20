@@ -1,0 +1,9 @@
+development:
+  adapter: postgresql
+  database: daily-chart-development
+  pool: 5
+
+test:
+  adapter: postgresql
+  database: daily-chart-test
+  pool: 5
