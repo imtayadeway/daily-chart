@@ -1,8 +1,15 @@
 require "rails_helper"
 require "support/features/clearance_helpers"
 
-feature "Visitor resets password" do
+RSpec.feature "Visitor resets password" do
   before { ActionMailer::Base.deliveries.clear }
+
+  around do |example|
+    original_adapter = ActiveJob::Base.queue_adapter
+    ActiveJob::Base.queue_adapter = :inline
+    example.run
+    ActiveJob::Base.queue_adapter = original_adapter
+  end
 
   scenario "by navigating to the page" do
     visit sign_in_path
@@ -33,7 +40,7 @@ feature "Visitor resets password" do
     expect_mailer_to_have_delivery(
       user.email,
       "password",
-      user.confirmation_token
+      user.confirmation_token,
     )
   end
 
@@ -41,20 +48,18 @@ feature "Visitor resets password" do
     expect(page).to have_content I18n.t("passwords.create.description")
   end
 
-  # rubocop:disable Metrics/AbcSize
   def expect_mailer_to_have_delivery(recipient, subject, body)
     expect(ActionMailer::Base.deliveries).not_to be_empty
 
     message = ActionMailer::Base.deliveries.any? do |email|
       email.to == [recipient] &&
-      email.subject =~ /#{subject}/i &&
-      email.html_part.body =~ /#{body}/ &&
-      email.text_part.body =~ /#{body}/
+        email.subject =~ /#{subject}/i &&
+        email.html_part.body =~ /#{body}/ &&
+        email.text_part.body =~ /#{body}/
     end
 
     expect(message).to be
   end
-  # rubocop:enable Metrics/AbcSize
 
   def expect_mailer_to_have_no_deliveries
     expect(ActionMailer::Base.deliveries).to be_empty

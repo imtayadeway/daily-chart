@@ -1,7 +1,7 @@
 require "rails_helper"
 require "support/features/clearance_helpers"
 
-feature "Visitor updates password" do
+RSpec.feature "Visitor updates password" do
   scenario "with valid password" do
     user = user_with_reset_password
     update_password user, "newpassword"
@@ -37,7 +37,7 @@ feature "Visitor updates password" do
   def visit_password_reset_page_for(user)
     visit edit_user_password_path(
       user_id: user,
-      token: user.confirmation_token
+      token: user.confirmation_token,
     )
   end
 

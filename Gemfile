@@ -1,11 +1,11 @@
 source "https://rubygems.org"
 
-ruby "2.3.1"
+ruby "2.5.1"
 
-gem "rails", github: "rails/rails", branch: "4-2-stable"
+gem "rails", git: "https://github.com/rails/rails.git", branch: "master"
 
 gem "pg"
-gem "coffee-rails", "~> 4.1.0"
+gem "coffee-rails"
 
 gem "jquery-rails"
 gem "jbuilder", "~> 2.0"
@@ -18,24 +18,17 @@ gem "bootstrap-sass", "~> 3.3.6"
 gem "sass-rails", ">= 3.2"
 gem "puma"
 
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
-
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
-
 group :development, :test do
-  gem "rspec-rails", "~> 3.0"
+  gem "rspec-rails"
   gem "pry"
 end
 
 group :development do
   gem "rubocop"
-  gem "annotate"
 end
 
 group :test do
   gem "capybara"
-  gem "factory_girl_rails"
+  gem "factory_bot_rails"
   gem "timecop"
 end
