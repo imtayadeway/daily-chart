@@ -6,16 +6,24 @@ A Ruby on Rails app for tracking daily personal goals.
 
 * Ruby version
 
+Ruby 2.5.1
+
 * System dependencies
 
-* Configuration
+PostgreSQL 9.5
 
 * Database creation
 
-* Database initialization
+In the command line, run:
+
+```sh
+bin/setup
+```
 
 * How to run the test suite
 
-* Services (job queues, cache servers, search engines, etc.)
+In the command line, run:
 
-* Deployment instructions
+```sh
+bundle exec rspec
+```
