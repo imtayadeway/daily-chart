@@ -33,3 +33,5 @@ module DailyChart
     config.autoload_paths += %W(#{config.root}/lib)
   end
 end
+
+require "daily_chart"

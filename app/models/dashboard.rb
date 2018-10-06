@@ -1,9 +1,10 @@
 class Dashboard
-  attr_reader :chart
+  attr_reader :chart, :stats
   delegate :submission_pending?, to: :chart
 
   def initialize(chart)
     @chart = chart
+    @stats = DailyChart.generate_stats(chart: chart)
   end
 
   def last_seven_days
@@ -19,7 +20,7 @@ class Dashboard
   end
 
   def weekly_averages
-    CalculatesAverages.for(scorables)
+    stats.weekly
   end
 
   def weeks_all_time
