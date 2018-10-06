@@ -51,6 +51,7 @@ class Submission < ActiveRecord::Base
   end
 
   def set_date
+    return if read_attribute(:date)
     self.date = Time.zone.today
   end
 

@@ -41,15 +41,11 @@ RSpec.describe Submission do
   describe "date" do
     specify "only one submission can be made per day" do
       chart = Chart.create(items: [Item.new(name: "foo")])
+      chart.submissions.create(data: { "foo" => "1" }, date: Date.parse("2018-01-01"))
 
-      Timecop.freeze(Time.zone.now.at_beginning_of_day) do
-        chart.submissions.create(data: { "foo" => "1" })
-      end
+      submission = chart.submissions.create(data: { "foo" => "1" }, date: Date.parse("2018-01-01"))
 
-      Timecop.freeze(Time.zone.now.at_beginning_of_day + 1.minute) do
-        submission = chart.submissions.create(data: { "foo" => "1" })
-        expect(submission).to be_invalid
-      end
+      expect(submission).to be_invalid
     end
 
     specify "creating a submission sets today's date on it" do
@@ -59,6 +55,13 @@ RSpec.describe Submission do
         submission = chart.submissions.create(data: { "foo" => "1" })
         expect(submission.date).to eq(Time.zone.today)
       end
+    end
+
+    specify "a date can optionally be passed to a submission" do
+      date = 5.days.ago.to_date
+      chart = Chart.create(items: [Item.new(name: "foo")])
+      submission = chart.submissions.create(data: { "foo" => "1" }, date: date)
+      expect(submission.date).to eq(date)
     end
   end
 end
