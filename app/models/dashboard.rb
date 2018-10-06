@@ -6,14 +6,6 @@ class Dashboard
     @chart = chart
   end
 
-  def best_this_week
-    stats.best_item
-  end
-
-  def worst_this_week
-    stats.worst_item
-  end
-
   def last_seven_days
     last(7).map(&:weekday)
   end
@@ -35,10 +27,6 @@ class Dashboard
   end
 
   private
-
-  def stats
-    @stats ||= Stats.new(last(7), chart.items)
-  end
 
   def last(x_days)
     scorables.last(x_days)
