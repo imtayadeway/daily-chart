@@ -1,5 +1,7 @@
 # README
 
+A Ruby on Rails app for tracking daily personal goals.
+
 ## Development
 
 * Ruby version
