@@ -1,2 +1,0 @@
-* Allow incremental marking off through out the day?
-* Use user's timezone, not the server's
