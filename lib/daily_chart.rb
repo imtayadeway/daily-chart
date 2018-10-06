@@ -29,4 +29,8 @@ module DailyChart
       date: date
     ).build.tap(&:save!)
   end
+
+  def self.generate_stats(chart:)
+    Dashboard.new(chart)
+  end
 end
