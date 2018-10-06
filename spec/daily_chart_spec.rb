@@ -9,53 +9,65 @@ RSpec.describe DailyChart do
         items_attributes: [{name: "Floss"}, {name: "Exercise"}]
       )
 
-      DailyChart.create_submission(
-        chart: chart,
-        data: { "Floss" => false, "Exercise" => false },
-        date: 7.days.ago
-      )
+      Timecop.freeze("2018-01-01") do
+        DailyChart.create_submission(
+          chart: chart,
+          data: { "Floss" => false, "Exercise" => false },
+          date: 7.days.ago
+        )
 
-      DailyChart.create_submission(
-        chart: chart,
-        data: { "Floss" => false, "Exercise" => false },
-        date: 6.days.ago
-      )
+        DailyChart.create_submission(
+          chart: chart,
+          data: { "Floss" => false, "Exercise" => false },
+          date: 6.days.ago
+        )
 
-      DailyChart.create_submission(
-        chart: chart,
-        data: { "Floss" => false, "Exercise" => false },
-        date: 5.days.ago
-      )
+        DailyChart.create_submission(
+          chart: chart,
+          data: { "Floss" => false, "Exercise" => false },
+          date: 5.days.ago
+        )
 
-      DailyChart.create_submission(
-        chart: chart,
-        data: { "Floss" => false, "Exercise" => false },
-        date: 4.days.ago
-      )
+        DailyChart.create_submission(
+          chart: chart,
+          data: { "Floss" => false, "Exercise" => false },
+          date: 4.days.ago
+        )
 
-      DailyChart.create_submission(
-        chart: chart,
-        data: { "Floss" => true, "Exercise" => false },
-        date: 3.days.ago
-      )
+        DailyChart.create_submission(
+          chart: chart,
+          data: { "Floss" => true, "Exercise" => false },
+          date: 3.days.ago
+        )
 
-      DailyChart.create_submission(
-        chart: chart,
-        data: { "Floss" => false, "Exercise" => false },
-        date: 2.days.ago
-      )
+        DailyChart.create_submission(
+          chart: chart,
+          data: { "Floss" => false, "Exercise" => false },
+          date: 2.days.ago
+        )
 
-      DailyChart.create_submission(
-        chart: chart,
-        data: { "Floss" => true, "Exercise" => true },
-        date: 1.day.ago
-      )
+        DailyChart.create_submission(
+          chart: chart,
+          data: { "Floss" => true, "Exercise" => true },
+          date: 1.day.ago
+        )
 
-      stats = DailyChart.generate_stats(chart: chart)
+        stats = DailyChart.generate_stats(chart: chart)
 
-      expect(stats).to have_attributes(daily_percentages: [0.0, 0.0, 0.0, 0.0, 50.0, 0.0, 100.0],
-                                       weekly_averages: [21.43],
-                                       weeks_all_time: [1])
+        expected = {
+          daily: [
+            { "Monday" => { "Floss" => false, "Exercise" => false } },
+            { "Tuesday" => { "Floss" => false, "Exercise" => false } },
+            { "Wednesday" => { "Floss" => false, "Exercise" => false } },
+            { "Thursday" => { "Floss" => false, "Exercise" => false } },
+            { "Friday" => { "Floss" => true, "Exercise" => false } },
+            { "Saturday" => { "Floss" => false, "Exercise" => false } },
+            { "Sunday" => { "Floss" => true, "Exercise" => true } }
+          ],
+          weekly: [21.43]
+        }
+        expect(stats).to have_attributes(expected)
+      end
     end
   end
 end
