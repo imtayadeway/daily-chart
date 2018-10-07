@@ -64,7 +64,10 @@ RSpec.describe DailyChart do
             ["Sat", 0.0],
             ["Sun", 100.0],
           ],
-          weekly: [21.43]
+          weekly: [
+            ["Exercise", [14.29]],
+            ["Floss", [28.57]],
+          ]
         }
         expect(stats).to have_attributes(expected)
       end
