@@ -72,7 +72,7 @@
        enabled: false
      },
      xAxis: {
-       categories: <%= @dashboard.weeks_all_time.to_s.html_safe %>,
+       categories: <%= 1.upto(@dashboard.weekly_percentages.size).to_a.to_s.html_safe %>,
        title: {
          text: "Week no."
        }
