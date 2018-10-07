@@ -15,7 +15,7 @@ class Dashboard
     stats.daily.map(&:second)
   end
 
-  def weekly_averages
+  def weekly_percentages
     stats.weekly
   end
 
