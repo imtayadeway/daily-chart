@@ -30,7 +30,20 @@ module DailyChart
     ).build.tap(&:save!)
   end
 
-  Stats = Struct.new(:daily, :weekly)
+  class Stats
+    def initialize(daily, weekly)
+      @daily = daily
+      @weekly = weekly
+    end
+
+    def daily
+      @daily
+    end
+
+    def weekly
+      @weekly
+    end
+  end
 
   def self.generate_stats(chart:)
     scorables = Scorables.for(ScorableDays.for(chart), chart.submissions.to_a)
