@@ -56,13 +56,13 @@ RSpec.describe DailyChart do
 
         expected = {
           daily: [
-            { "Monday" => { "Floss" => false, "Exercise" => false } },
-            { "Tuesday" => { "Floss" => false, "Exercise" => false } },
-            { "Wednesday" => { "Floss" => false, "Exercise" => false } },
-            { "Thursday" => { "Floss" => false, "Exercise" => false } },
-            { "Friday" => { "Floss" => true, "Exercise" => false } },
-            { "Saturday" => { "Floss" => false, "Exercise" => false } },
-            { "Sunday" => { "Floss" => true, "Exercise" => true } }
+            ["Mon", 0.0],
+            ["Tue", 0.0],
+            ["Wed", 0.0],
+            ["Thu", 0.0],
+            ["Fri", 50.0],
+            ["Sat", 0.0],
+            ["Sun", 100.0],
           ],
           weekly: [21.43]
         }

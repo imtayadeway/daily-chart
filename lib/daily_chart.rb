@@ -34,15 +34,8 @@ module DailyChart
 
   def self.generate_stats(chart:)
     scorables = Scorables.for(ScorableDays.for(chart), chart.submissions.to_a)
-
-    daily = scorables.map do |scorable|
-      data = scorable.submission_details.each_with_object({}) do |sd, hsh|
-        hsh[sd.item.name] = sd.checked
-      end
-      { scorable.date.strftime("%A") => data }
-    end
+    daily = scorables.last(7).map { |s| [s.weekday, s.percent] }
     weekly = CalculatesAverages.for(scorables)
-
     Stats.new(daily, weekly)
   end
 end
