@@ -39,4 +39,17 @@ RSpec.describe DailyChart::Stats do
       end
     end
   end
+
+  describe "#weekly" do
+    it "aggregates scores by week" do
+      chart = Chart.create!(items: [Item.create(name: "Exercise"), Item.create(name: "Floss")])
+      chart.submissions.create!(data: { "Exercise" => "1", "Floss" => "0" }, date: Date.today)
+      chart.submissions.create!(data: { "Exercise" => "1", "Floss" => "0" }, date: Date.today - 7)
+
+      actual = DailyChart::Stats.new(chart).weekly
+      expected = [["Exercise", [14.29, 14.29]],
+                  ["Floss", [0.0, 0.0]]]
+      expect(actual).to eq(expected)
+    end
+  end
 end
