@@ -37,7 +37,6 @@ RSpec.describe DailyChart::Stats do
         ]
         expect(actual).to eq(expected)
       end
-
     end
   end
 end
