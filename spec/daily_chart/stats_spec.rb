@@ -5,7 +5,7 @@ RSpec.describe DailyChart::Stats do
     it "fills in the blanks for no submission days" do
       Timecop.freeze("2018-01-01") do
         chart = Chart.create!(items: [Item.create(name: "Exercise")])
-        chart.submissions.create!(data: { "Exercise" => "1" }, date: 7.days.ago)
+        chart.submissions.create!(data: { "Exercise" => "1" }, date: 7.days.ago.to_date)
 
         actual = DailyChart::Stats.new(chart).daily
         expected = [

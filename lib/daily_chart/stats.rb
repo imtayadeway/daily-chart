@@ -6,7 +6,16 @@ module DailyChart
     end
 
     def daily
-      @scorables.last(7).map { |s| [s.weekday, s.percent] }
+      Submission.find_by_sql([<<~SQL, @chart.id]).map { |s| [s.weekday, s.percent] }
+        WITH last_seven_days(date) AS (
+          VALUES #{daily_date_range.map { |d| "('#{d}'::varchar)"}.join(",")}
+        )
+        SELECT COALESCE(score, 0) AS score, COALESCE(data, '{}'::json) AS data, lsd.date
+        FROM submissions AS s
+        RIGHT OUTER JOIN last_seven_days lsd ON s.date = lsd.date
+        AND chart_id = ?
+        ORDER by lsd.date
+      SQL
     end
 
     def weekly
@@ -22,6 +31,12 @@ module DailyChart
         end
         result.values.each { |v| v[-1] = (v[-1] / 0.07).round(2) }
       end.sort.to_a
+    end
+
+    private
+
+    def daily_date_range
+      Date.yesterday.downto(Date.today - 7)
     end
   end
 end
