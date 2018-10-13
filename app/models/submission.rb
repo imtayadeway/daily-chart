@@ -1,14 +1,3 @@
-# == Schema Information
-#
-# Table name: submissions
-#
-#  id       :integer          not null, primary key
-#  score    :integer
-#  data     :json
-#  chart_id :integer
-#  date     :string
-#
-
 class Submission < ActiveRecord::Base
   include DateFormatters
   belongs_to :chart
