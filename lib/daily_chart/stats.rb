@@ -31,6 +31,13 @@ module DailyChart
         end
         result.values.each { |v| v[-1] = (v[-1] / 0.07).round(2) }
       end.sort.to_a
+      ActiveRecord::Base.connection.execute(<<~SQL).to_a
+        SELECT i.name, SUM(s.score) AS score
+        FROM submissions s
+        JOIN charts c ON s.chart_id = c.id
+        JOIN items i ON i.chart_id = c.id
+        GROUP BY name
+      SQL
     end
 
     private
