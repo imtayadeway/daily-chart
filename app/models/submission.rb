@@ -9,15 +9,7 @@ class Submission < ActiveRecord::Base
   before_save :set_score
 
   def self.pending?
-    find_by(date: Time.zone.today.to_s).nil?
-  end
-
-  def date
-    Date.parse(read_attribute(:date))
-  end
-
-  def date=(d)
-    write_attribute(:date, d.to_s)
+    find_by(date: Time.zone.today).nil?
   end
 
   def percent
@@ -40,8 +32,7 @@ class Submission < ActiveRecord::Base
   end
 
   def set_date
-    return if read_attribute(:date)
-    self.date = Time.zone.today
+    self.date ||= Time.zone.today
   end
 
   def max_score
