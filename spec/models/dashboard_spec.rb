@@ -3,9 +3,10 @@ require "rails_helper"
 RSpec.describe Dashboard do
   describe "#last_seven_days" do
     it "counts today if it's been submitted" do
-      chart = Chart.create(items: [Item.new(name: "foo")])
+      user = create(:user)
+      chart = Chart.create!(user: user, items: [Item.new(name: "foo")])
       6.downto(0) do |n|
-        chart.submissions.create(data: { "foo" => "1" }, date: Time.zone.today - n)
+        chart.submissions.create!(date: Time.zone.today - n)
       end
       dashboard = Dashboard.new(chart)
 
@@ -13,9 +14,10 @@ RSpec.describe Dashboard do
     end
 
     it "does not count today if a submission is pending" do
-      chart = Chart.create(items: [Item.new(name: "foo")])
+      user = create(:user)
+      chart = Chart.create!(user: user, items: [Item.new(name: "foo")])
       7.downto(1) do |n|
-        chart.submissions.create(data: { "foo" => "1" }, date: Time.zone.today - n)
+        chart.submissions.create!(date: Time.zone.today - n)
       end
       dashboard = Dashboard.new(chart)
 

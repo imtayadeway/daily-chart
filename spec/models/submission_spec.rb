@@ -3,9 +3,15 @@ require "rails_helper"
 RSpec.describe Submission do
   describe "#percent" do
     it "returns the score as a percentage of max score" do
-      chart = Chart.create(items: [Item.new(name: "foo"), Item.new(name: "bar")])
+      user = create(:user)
+      foo = Item.new(name: "foo")
+      bar = Item.new(name: "bar")
+      chart = Chart.create!(user: user, items: [foo, bar])
       data = { "foo" => "1", "bar" => "0" }
-      submission = chart.submissions.create(data: data)
+      submission = chart.submissions.new
+      submission.submission_details.new(chart: chart, item: foo, checked: true)
+      submission.submission_details.new(chart: chart, item: bar, checked: false)
+      submission.save!
 
       expect(submission.percent).to eq(50)
     end
@@ -13,43 +19,50 @@ RSpec.describe Submission do
 
   describe "data" do
     it "is valid when the data matches the chart's items" do
-      chart = Chart.create(items: [Item.new(name: "foo")])
-      data = { "foo" => "1" }
-      submission = chart.submissions.create(data: data)
+      user = create(:user)
+      foo = Item.new(name: "foo")
+      chart = Chart.create!(user: user, items: [foo])
+      submission = chart.submissions.new
+      submission.submission_details.new(chart: chart, item: foo, checked: true)
+
       expect(submission).to be_valid
     end
 
     it "is invalid when the data does not match the chart's items" do
-      chart = Chart.create(items: [Item.new(name: "foo")])
-      data = { "bar" => "1" }
-      submission = chart.submissions.build(data: data)
+      user = create(:user)
+      chart = Chart.create!(user: user, items: [Item.new(name: "foo")])
+      submission = chart.submissions.new
+      submission.submission_details.new(chart: chart, item: nil, checked: true)
       expect(submission).to be_invalid
     end
   end
 
   describe "date" do
     specify "only one submission can be made per day" do
-      chart = Chart.create(items: [Item.new(name: "foo")])
-      chart.submissions.create(data: { "foo" => "1" }, date: Date.parse("2018-01-01"))
+      user = create(:user)
+      chart = Chart.create!(user: user, items: [Item.new(name: "foo")])
+      chart.submissions.create(date: Date.parse("2018-01-01"))
 
-      submission = chart.submissions.create(data: { "foo" => "1" }, date: Date.parse("2018-01-01"))
+      submission = chart.submissions.create(date: Date.parse("2018-01-01"))
 
       expect(submission).to be_invalid
     end
 
     specify "creating a submission sets today's date on it" do
-      chart = Chart.create(items: [Item.new(name: "foo")])
+      user = create(:user)
+      chart = Chart.create!(user: user, items: [Item.new(name: "foo")])
 
       Timecop.freeze do
-        submission = chart.submissions.create(data: { "foo" => "1" })
+        submission = chart.submissions.create
         expect(submission.date).to eq(Time.zone.today)
       end
     end
 
     specify "a date can optionally be passed to a submission" do
       date = 5.days.ago.to_date
-      chart = Chart.create(items: [Item.new(name: "foo")])
-      submission = chart.submissions.create(data: { "foo" => "1" }, date: date)
+      user = create(:user)
+      chart = Chart.create(user: user, items: [Item.new(name: "foo")])
+      submission = chart.submissions.create(date: date)
       expect(submission.date).to eq(date)
     end
   end
