@@ -6,10 +6,12 @@ AllCops:
     - "db/**/*"
     - "config/**/*"
     - "vendor/**/*"
-  RunRailsCops: true
 
 Metrics/LineLength:
   Max: 112
+
+Rails:
+  Enabled: true
 
 Style/Documentation:
   Enabled: false
