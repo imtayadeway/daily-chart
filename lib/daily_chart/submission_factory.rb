@@ -51,7 +51,7 @@ module DailyChart
       if unfound_items?
         raise ArgumentError, "Item not found!"
       end
-      unless checked.size + unchecked.size == chart.items.count
+      if missing_items?
         raise ArgumentError, "Missing items"
       end
     end
@@ -63,6 +63,10 @@ module DailyChart
     def unfound_items?
       checked_items.size != checked.size ||
         unchecked_items.size != unchecked.size
+    end
+
+    def missing_items?
+      checked.size + unchecked.size != chart.items.count
     end
 
     def checked_items
