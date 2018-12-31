@@ -20,15 +20,8 @@ module DailyChart
 
     def build
       validate
-
-      checked_items.each do |item|
-        check_item(item)
-      end
-
-      unchecked_items.each do |item|
-        uncheck_item(item)
-      end
-
+      checked_items.each(&method(:check_item))
+      unchecked_items.each(&method(:uncheck_item))
       submission
     end
 
