@@ -22,19 +22,11 @@ module DailyChart
       validate
 
       checked_items.each do |item|
-        submission.submission_details.new(
-          chart: chart,
-          item: item,
-          checked: true
-        )
+        check_item(item)
       end
 
       unchecked_items.each do |item|
-        submission.submission_details.new(
-          chart: chart,
-          item: item,
-          checked: false
-        )
+        uncheck_item(item)
       end
 
       submission
@@ -71,6 +63,22 @@ module DailyChart
 
     def submission
       @submission ||= chart.submissions.new
+    end
+
+    def check_item(item)
+      submission.submission_details.new(
+        chart: chart,
+        item: item,
+        checked: true
+      )
+    end
+
+    def uncheck_item(item)
+      submission.submission_details.new(
+        chart: chart,
+        item: item,
+        checked: false
+      )
     end
   end
 end
