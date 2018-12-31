@@ -7,7 +7,18 @@ module DailyChart
     # @param unchecked [Array<String>] the list of unchecked items
     # @return submission [Submission]
     def self.build(chart:, checked: [], unchecked: [])
-      checked, unchecked = Set.new(checked), Set.new(unchecked)
+      new(chart: chart, checked: checked, unchecked: unchecked).build
+    end
+
+    attr_reader :chart, :checked, :unchecked
+
+    def initialize(chart:, checked:, unchecked:)
+      @chart = chart
+      @checked = Set.new(checked)
+      @unchecked = Set.new(unchecked)
+    end
+
+    def build
       raise ArgumentError, "Overlap detected" if (checked & unchecked).any?
       checked_items = chart.items.where(name: checked)
       unchecked_items = chart.items.where(name: unchecked)
