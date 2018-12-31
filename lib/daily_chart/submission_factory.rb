@@ -66,18 +66,18 @@ module DailyChart
     end
 
     def check_item(item)
-      submission.submission_details.new(
-        chart: chart,
-        item: item,
-        checked: true
-      )
+      build_submission_detail(item, true)
     end
 
     def uncheck_item(item)
+      build_submission_detail(item, false)
+    end
+
+    def build_submission_detail(item, checked)
       submission.submission_details.new(
         chart: chart,
         item: item,
-        checked: false
+        checked: checked
       )
     end
   end
