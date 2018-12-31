@@ -15,11 +15,11 @@ ActiveRecord::Schema.define(version: 2018_11_17_041441) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "charts", id: :serial, force: :cascade do |t|
+  create_table "charts", force: :cascade do |t|
     t.integer "user_id"
   end
 
-  create_table "items", id: :serial, force: :cascade do |t|
+  create_table "items", force: :cascade do |t|
     t.string "name"
     t.integer "chart_id"
   end
@@ -31,13 +31,13 @@ ActiveRecord::Schema.define(version: 2018_11_17_041441) do
     t.boolean "checked"
   end
 
-  create_table "submissions", id: :serial, force: :cascade do |t|
+  create_table "submissions", force: :cascade do |t|
     t.integer "score"
     t.integer "chart_id"
     t.date "date"
   end
 
-  create_table "users", id: :serial, force: :cascade do |t|
+  create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "password"
     t.string "encrypted_password", limit: 128
