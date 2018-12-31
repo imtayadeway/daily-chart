@@ -20,8 +20,6 @@ module DailyChart
 
     def build
       raise ArgumentError, "Overlap detected" if (checked & unchecked).any?
-      checked_items = chart.items.where(name: checked)
-      unchecked_items = chart.items.where(name: unchecked)
       raise ArgumentError, "Item not found!" unless checked_items.size == checked.size
       raise ArgumentError, "Item not found!" unless unchecked_items.size == unchecked.size
       raise ArgumentError, "Missing items" unless checked.size + unchecked.size == chart.items.count
@@ -45,6 +43,16 @@ module DailyChart
       end
 
       submission
+    end
+
+    private
+
+    def checked_items
+      @checked_items ||= chart.items.where(name: checked)
+    end
+
+    def unchecked_items
+      @unchecked_items ||= chart.items.where(name: unchecked)
     end
   end
 end
