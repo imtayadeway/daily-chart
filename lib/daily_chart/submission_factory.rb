@@ -45,15 +45,9 @@ module DailyChart
     private
 
     def validate
-      if overlap?
-        raise ArgumentError, "Overlap detected"
-      end
-      if unfound_items?
-        raise ArgumentError, "Item not found!"
-      end
-      if missing_items?
-        raise ArgumentError, "Missing items"
-      end
+      raise ArgumentError, "Overlap detected" if overlap?
+      raise ArgumentError, "Item not found!" if unfound_items?
+      raise ArgumentError, "Missing items" if missing_items?
     end
 
     def overlap?
