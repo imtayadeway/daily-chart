@@ -6,8 +6,17 @@ class SubmissionsController < ApplicationController
   end
 
   def create
-    submission = current_chart.submissions.create(data: submission_params)
-    if submission.valid?
+    # TODO: extract this logic from the controller
+    submission = current_chart.submissions.new
+    submission_params.each do |name, checked|
+      item = current_chart.items.find_by(name: name)
+      submission.submission_details.new(
+        chart: current_chart,
+        item: item,
+        checked: checked == "1"
+      )
+    end
+    if submission.save
       flash[:notice] = "Chart submitted for #{Time.zone.today}"
     else
       flash[:alert] = "Chart already submitted for #{Time.zone.today}"

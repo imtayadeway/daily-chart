@@ -1,9 +1,9 @@
 class Submission < ActiveRecord::Base
   include DateFormatters
   belongs_to :chart
+  has_many :submission_details
 
   validates :date, uniqueness: true, presence: true
-  validate :data_validity
 
   before_validation :set_date
   before_save :set_score
@@ -22,13 +22,8 @@ class Submission < ActiveRecord::Base
 
   private
 
-  def data_validity
-    return if ChecksSubmissionData.ok?(chart, data)
-    errors.add(:data, "malformed")
-  end
-
   def set_score
-    self.score = ScoresSubmissions.score(data)
+    self.score = submission_details.count(&:checked?)
   end
 
   def set_date
@@ -36,6 +31,6 @@ class Submission < ActiveRecord::Base
   end
 
   def max_score
-    data.size
+    submission_details.count
   end
 end

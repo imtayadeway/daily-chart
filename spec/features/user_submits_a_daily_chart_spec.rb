@@ -16,8 +16,13 @@ RSpec.feature "User submits a daily chart" do
 
   scenario "the user has already submitted a chart for that day" do
     user = create(:user)
-    user.create_chart(items_attributes: [{ name: "Floss" }, { name: "Exercise" }])
-    user.chart.submissions.create(data: { "Floss" => "1", "Exercise" => "1" })
+    chart = user.create_chart
+    floss = chart.items.create(name: "Floss")
+    exercise = chart.items.create(name: "Exercise")
+    submission = user.chart.submissions.new
+    submission.submission_details.new(chart: chart, item: floss, checked: true)
+    submission.submission_details.new(chart: chart, item: exercise, checked: true)
+    submission.save!
 
     visit new_submission_path(as: user)
     check "submission_Floss"
