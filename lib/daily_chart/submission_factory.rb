@@ -45,7 +45,7 @@ module DailyChart
     private
 
     def validate
-      if (checked & unchecked).any?
+      if overlap?
         raise ArgumentError, "Overlap detected"
       end
       unless checked_items.size == checked.size
@@ -57,6 +57,10 @@ module DailyChart
       unless checked.size + unchecked.size == chart.items.count
         raise ArgumentError, "Missing items"
       end
+    end
+
+    def overlap?
+      (checked & unchecked).any?
     end
 
     def checked_items
