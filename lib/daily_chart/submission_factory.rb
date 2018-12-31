@@ -1,5 +1,6 @@
 module DailyChart
   class SubmissionFactory
+    # Builds a submission without persisting it to the database.
     #
     # @param chart [Chart] the chart
     # @param checked [Array<String>] the list checked items, e.g.
@@ -10,6 +11,14 @@ module DailyChart
       new(chart: chart, checked: checked, unchecked: unchecked).build
     end
 
+    # Creates a submission, persisting it to the database. Raises if
+    # it fails validation.
+    #
+    # @param chart [Chart] the chart
+    # @param checked [Array<String>] the list checked items, e.g.
+    #   <tt>["Floss", "Exercise"]</tt>
+    # @param unchecked [Array<String>] the list of unchecked items
+    # @return submission [Submission]
     def self.create(chart:, checked: [], unchecked: [])
       submission = build(chart: chart, checked: checked, unchecked: unchecked)
       submission.save!
