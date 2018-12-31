@@ -6,7 +6,6 @@ class SubmissionsController < ApplicationController
   end
 
   def create
-    # TODO: extract this logic from the controller
     submission = current_chart.submissions.new
     submission_params.each do |name, checked|
       item = current_chart.items.find_by(name: name)
