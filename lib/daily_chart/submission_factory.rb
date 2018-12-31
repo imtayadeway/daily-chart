@@ -45,10 +45,18 @@ module DailyChart
     private
 
     def validate
-      raise ArgumentError, "Overlap detected" if (checked & unchecked).any?
-      raise ArgumentError, "Item not found!" unless checked_items.size == checked.size
-      raise ArgumentError, "Item not found!" unless unchecked_items.size == unchecked.size
-      raise ArgumentError, "Missing items" unless checked.size + unchecked.size == chart.items.count
+      if (checked & unchecked).any?
+        raise ArgumentError, "Overlap detected"
+      end
+      unless checked_items.size == checked.size
+        raise ArgumentError, "Item not found!"
+      end
+      unless unchecked_items.size == unchecked.size
+        raise ArgumentError, "Item not found!"
+      end
+      unless checked.size + unchecked.size == chart.items.count
+        raise ArgumentError, "Missing items"
+      end
     end
 
     def checked_items
