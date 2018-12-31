@@ -48,10 +48,7 @@ module DailyChart
       if overlap?
         raise ArgumentError, "Overlap detected"
       end
-      unless checked_items.size == checked.size
-        raise ArgumentError, "Item not found!"
-      end
-      unless unchecked_items.size == unchecked.size
+      if unfound_items?
         raise ArgumentError, "Item not found!"
       end
       unless checked.size + unchecked.size == chart.items.count
@@ -61,6 +58,11 @@ module DailyChart
 
     def overlap?
       (checked & unchecked).any?
+    end
+
+    def unfound_items?
+      checked_items.size != checked.size ||
+        unchecked_items.size != unchecked.size
     end
 
     def checked_items
