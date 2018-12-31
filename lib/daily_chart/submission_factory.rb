@@ -21,8 +21,6 @@ module DailyChart
     def build
       validate
 
-      submission = chart.submissions.new
-
       checked_items.each do |item|
         submission.submission_details.new(
           chart: chart,
@@ -69,6 +67,10 @@ module DailyChart
 
     def unchecked_items
       @unchecked_items ||= chart.items.where(name: unchecked)
+    end
+
+    def submission
+      @submission ||= chart.submissions.new
     end
   end
 end
