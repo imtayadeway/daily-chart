@@ -10,6 +10,12 @@ module DailyChart
       new(chart: chart, checked: checked, unchecked: unchecked).build
     end
 
+    def self.create(chart:, checked: [], unchecked: [])
+      submission = build(chart: chart, checked: checked, unchecked: unchecked)
+      submission.save!
+      submission
+    end
+
     attr_reader :chart, :checked, :unchecked
 
     def initialize(chart:, checked:, unchecked:)
