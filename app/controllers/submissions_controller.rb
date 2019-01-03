@@ -6,14 +6,9 @@ class SubmissionsController < ApplicationController
   end
 
   def create
-    checked, unchecked = submission_params.to_h.partition do |_, v|
-      v == "1"
-    end
-
     submission = DailyChart::SubmissionFactory.build(
       chart: current_chart,
-      checked: checked.map(&:first),
-      unchecked: unchecked.map(&:first)
+      items: submission_params.to_h.transform_values { |v| v == "1" }
     )
 
     if submission.save

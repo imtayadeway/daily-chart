@@ -9,8 +9,7 @@ RSpec.describe Submission do
       chart = Chart.create!(user: user, items: [foo, bar])
       submission = DailyChart::SubmissionFactory.create(
         chart: chart,
-        checked: ["foo"],
-        unchecked: ["bar"]
+        items: {"foo" => true, "bar" => false}
       )
 
       expect(submission.percent).to eq(50)

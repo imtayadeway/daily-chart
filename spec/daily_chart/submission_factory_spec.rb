@@ -15,8 +15,7 @@ RSpec.describe DailyChart::SubmissionFactory do
 
       submission = described_class.build(
         chart: chart,
-        checked: ["Boop"],
-        unchecked: ["Beep"]
+        items: {"Boop" => true, "Beep" => false}
       )
 
       expect(submission.submission_details)
@@ -29,7 +28,7 @@ RSpec.describe DailyChart::SubmissionFactory do
       chart = Chart.create(user: create(:user), items: [boop])
 
       expect {
-        described_class.build(chart: chart, checked: ["Beep"])
+        described_class.build(chart: chart, items: {"Beep" => true})
       }.to raise_error(/not found/)
     end
 
@@ -38,7 +37,7 @@ RSpec.describe DailyChart::SubmissionFactory do
       chart = Chart.create(user: create(:user), items: [boop])
 
       expect {
-        described_class.build(chart: chart, unchecked: ["Beep"])
+        described_class.build(chart: chart, items: {"Beep" => false})
       }.to raise_error(/not found/)
 
     end
@@ -50,16 +49,6 @@ RSpec.describe DailyChart::SubmissionFactory do
       expect {
         described_class.build(chart: chart)
       }.to raise_error(/missing/i)
-    end
-
-    it "raises if there is an overlap between checked and unchecked" do
-      boop = Item.new(name: "Boop")
-      chart = Chart.create(user: create(:user), items: [boop])
-
-      expect {
-        described_class.build(chart: chart, checked: ["Boop"], unchecked: ["Boop"])
-      }.to raise_error(/overlap/i)
-
     end
   end
 end

@@ -3,34 +3,36 @@ module DailyChart
     # Builds a submission without persisting it to the database.
     #
     # @param chart [Chart] the chart
-    # @param checked [Array<String>] the list checked items, e.g.
-    #   <tt>["Floss", "Exercise"]</tt>
-    # @param unchecked [Array<String>] the list of unchecked items
+    # @param items [Array<String>] a hash of item names mapped to a
+    #   value indicating whether it is checked, e.g.
+    #   <tt>{"Floss" => true, "Exercise" => false}</tt>
     # @return submission [Submission]
-    def self.build(chart:, checked: [], unchecked: [])
-      new(chart: chart, checked: checked, unchecked: unchecked).build
+    def self.build(chart:, items: {})
+      new(chart: chart, items: items).build
     end
 
     # Creates a submission, persisting it to the database. Raises if
     # it fails validation.
     #
     # @param chart [Chart] the chart
-    # @param checked [Array<String>] the list checked items, e.g.
-    #   <tt>["Floss", "Exercise"]</tt>
-    # @param unchecked [Array<String>] the list of unchecked items
+    # @param items [Array<String>] a hash of item names mapped to a
+    #   value indicating whether it is checked, e.g.
+    #   <tt>{"Floss" => true, "Exercise" => false}</tt>
     # @return submission [Submission]
-    def self.create(chart:, checked: [], unchecked: [])
-      submission = build(chart: chart, checked: checked, unchecked: unchecked)
+    def self.create(chart:, items: {})
+      submission = build(chart: chart, items: items)
       submission.save!
       submission
     end
 
     attr_reader :chart, :checked, :unchecked
 
-    def initialize(chart:, checked:, unchecked:)
+    def initialize(chart:, items:)
       @chart = chart
-      @checked = Set.new(checked)
-      @unchecked = Set.new(unchecked)
+      @checked, @unchecked = items.reduce([[], []]) do |acc, (k,v)|
+        acc[v ? 0 : 1] << k
+        acc
+      end
     end
 
     def build
@@ -43,13 +45,8 @@ module DailyChart
     private
 
     def validate
-      raise ArgumentError, "Overlap detected" if overlap?
       raise ArgumentError, "Item not found!" if unfound_items?
       raise ArgumentError, "Missing items" if missing_items?
-    end
-
-    def overlap?
-      (checked & unchecked).any?
     end
 
     def unfound_items?
