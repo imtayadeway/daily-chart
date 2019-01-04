@@ -4,8 +4,12 @@ RSpec.describe DailyChart::Stats do
   describe "#daily" do
     it "fills in the blanks for no submission days" do
       Timecop.freeze("2018-01-01") do
-        chart = Chart.create!(items: [Item.create(name: "Exercise")])
-        chart.submissions.create!(data: { "Exercise" => "1" }, date: 7.days.ago.to_date)
+        chart = create(:chart, items: [Item.create(name: "Exercise")])
+        DailyChart::SubmissionFactory.create(
+          chart: chart,
+          data: { "Exercise" => true },
+          date: 7.days.ago
+        )
 
         actual = DailyChart::Stats.new(chart).daily
         expected = [
@@ -23,7 +27,7 @@ RSpec.describe DailyChart::Stats do
 
     it "provides some data when no submissions have been made" do
       Timecop.freeze("2018-01-01") do
-        chart = Chart.create!(items: [Item.create(name: "Exercise")])
+        chart = create(:chart, items: [Item.create(name: "Exercise")])
 
         actual = DailyChart::Stats.new(chart).daily
         expected = [
@@ -42,9 +46,9 @@ RSpec.describe DailyChart::Stats do
 
   describe "#weekly" do
     it "aggregates scores by week" do
-      chart = Chart.create!(items: [Item.create(name: "Exercise"), Item.create(name: "Floss")])
-      chart.submissions.create!(data: { "Exercise" => "1", "Floss" => "0" }, date: Date.today)
-      chart.submissions.create!(data: { "Exercise" => "1", "Floss" => "0" }, date: Date.today - 7)
+      chart = create(:chart, items: [Item.create(name: "Exercise"), Item.create(name: "Floss")])
+      DailyChart::SubmissionFactory.create(chart: chart, data: { "Exercise" => true, "Floss" => false }, date: Date.today)
+      DailyChart::SubmissionFactory.create(chart: chart, data: { "Exercise" => true, "Floss" => false }, date: Date.today - 7)
 
       actual = DailyChart::Stats.new(chart).weekly
       expected = [["Exercise", [14.29, 14.29]],
