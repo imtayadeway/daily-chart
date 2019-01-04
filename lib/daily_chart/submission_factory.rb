@@ -34,10 +34,7 @@ module DailyChart
 
     def build
       validate
-      data.each do |name, checked|
-        item = fetch_item(name)
-        build_submission_detail(item, checked)
-      end
+      build_submission
       submission
     end
 
@@ -54,6 +51,13 @@ module DailyChart
 
     def missing_items?
       items.size != chart.items.count
+    end
+
+    def build_submission
+      data.each do |name, checked|
+        item = fetch_item(name)
+        build_submission_detail(item, checked)
+      end
     end
 
     def fetch_item(name)
