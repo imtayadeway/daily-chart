@@ -23,6 +23,13 @@ RSpec.describe DailyChart::SubmissionFactory do
                     an_object_having_attributes(item: beep, checked: false))
     end
 
+    it "accepts a date" do
+      date = Date.new(2019, 1, 1)
+      chart = create(:chart)
+      submission = described_class.build(chart: chart, date: date)
+      expect(submission.date).to eq date
+    end
+
     it "raises if a checked item cannot be found" do
       boop = Item.new(name: "Boop")
       chart = create(:chart, items: [boop])
