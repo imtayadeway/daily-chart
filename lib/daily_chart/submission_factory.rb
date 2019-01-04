@@ -1,18 +1,8 @@
 module DailyChart
   class SubmissionFactory
-    def self.build(chart:, data: {}, date: nil)
-      new(chart: chart, data: data, date: date).build
-    end
-
-    def self.create(chart:, data: {}, date: nil)
-      submission = build(chart: chart, data: data, date: date)
-      submission.save!
-      submission
-    end
-
     attr_reader :chart, :data, :date
 
-    def initialize(chart:, data:, date:)
+    def initialize(chart:, data: {}, date: nil)
       @chart = chart
       @data = data
       @date = date
