@@ -8,11 +8,11 @@ class Dashboard
   end
 
   def last_seven_days
-    last(7).map(&:weekday)
+    stats.daily.map(&:first)
   end
 
   def daily_percentages
-    last(7).map(&:percent)
+    stats.daily.map(&:second)
   end
 
   def weekly_averages
@@ -27,9 +27,5 @@ class Dashboard
 
   def scorables
     @scorables ||= Scorables.for(ScorableDays.for(chart), chart.submissions.to_a)
-  end
-
-  def last(x_days)
-    scorables.last(x_days)
   end
 end
