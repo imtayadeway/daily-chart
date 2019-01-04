@@ -4,7 +4,7 @@ RSpec.describe Submission do
   describe "#percent" do
     it "returns the score as a percentage of max score" do
       chart = create(:chart, items_attributes: [{name: "foo"}, {name: "bar"}])
-      submission = DailyChart::SubmissionFactory.create(
+      submission = DailyChart.create_submission(
         chart: chart,
         data: {"foo" => true, "bar" => false}
       )
