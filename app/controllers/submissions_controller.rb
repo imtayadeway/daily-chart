@@ -8,7 +8,7 @@ class SubmissionsController < ApplicationController
   def create
     submission = DailyChart::SubmissionFactory.build(
       chart: current_chart,
-      items: submission_params.to_h.transform_values { |v| v == "1" }
+      data: submission_params.to_h.transform_values { |v| v == "1" }
     )
 
     if submission.save

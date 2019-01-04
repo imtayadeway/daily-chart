@@ -15,7 +15,7 @@ RSpec.describe DailyChart::SubmissionFactory do
 
       submission = described_class.build(
         chart: chart,
-        items: {"Boop" => true, "Beep" => false}
+        data: {"Boop" => true, "Beep" => false}
       )
 
       expect(submission.submission_details)
@@ -28,7 +28,7 @@ RSpec.describe DailyChart::SubmissionFactory do
       chart = Chart.create(user: create(:user), items: [boop])
 
       expect {
-        described_class.build(chart: chart, items: {"Beep" => true})
+        described_class.build(chart: chart, data: {"Beep" => true})
       }.to raise_error(/not found/)
     end
 
@@ -37,7 +37,7 @@ RSpec.describe DailyChart::SubmissionFactory do
       chart = Chart.create(user: create(:user), items: [boop])
 
       expect {
-        described_class.build(chart: chart, items: {"Beep" => false})
+        described_class.build(chart: chart, data: {"Beep" => false})
       }.to raise_error(/not found/)
 
     end

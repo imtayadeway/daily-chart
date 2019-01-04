@@ -21,7 +21,7 @@ RSpec.feature "User submits a daily chart" do
     chart.items.create(name: "Exercise")
     DailyChart::SubmissionFactory.create(
       chart: user.chart,
-      items: {"Floss" => true, "Exercise" => true}
+      data: {"Floss" => true, "Exercise" => true}
     )
 
     visit new_submission_path(as: user)
