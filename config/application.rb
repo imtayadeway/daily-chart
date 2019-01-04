@@ -15,7 +15,7 @@ require "action_view/railtie"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-require "daily_chart"
+require_relative "../lib/daily_chart"
 
 module DailyChart
   class Application < Rails::Application
