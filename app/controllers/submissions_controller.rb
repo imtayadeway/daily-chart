@@ -6,15 +6,11 @@ class SubmissionsController < ApplicationController
   end
 
   def create
-    submission = current_chart.submissions.new
-    submission_params.each do |name, checked|
-      item = current_chart.items.find_by(name: name)
-      submission.submission_details.new(
-        chart: current_chart,
-        item: item,
-        checked: checked == "1"
-      )
-    end
+    submission = DailyChart::SubmissionFactory.build(
+      chart: current_chart,
+      data: submission_params.to_h.transform_values { |v| v == "1" }
+    )
+
     if submission.save
       flash[:notice] = "Chart submitted for #{Time.zone.today}"
     else
@@ -26,6 +22,10 @@ class SubmissionsController < ApplicationController
   private
 
   def submission_params
-    params.require(:submission)
+    params.require(:submission).permit(current_item_names)
+  end
+
+  def current_item_names
+    current_chart.items.map(&:name)
   end
 end
