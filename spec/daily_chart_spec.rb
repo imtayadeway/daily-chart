@@ -54,9 +54,19 @@ RSpec.describe DailyChart do
 
         stats = DailyChart.generate_stats(chart: chart)
 
-        expect(stats).to have_attributes(daily_percentages: [0.0, 0.0, 0.0, 0.0, 50.0, 0.0, 100.0],
-                                         weekly_averages: [21.43],
-                                         weeks_all_time: [1])
+        expected = {
+          daily: [
+            { "Monday" => { "Floss" => false, "Exercise" => false } },
+            { "Tuesday" => { "Floss" => false, "Exercise" => false } },
+            { "Wednesday" => { "Floss" => false, "Exercise" => false } },
+            { "Thursday" => { "Floss" => false, "Exercise" => false } },
+            { "Friday" => { "Floss" => true, "Exercise" => false } },
+            { "Saturday" => { "Floss" => false, "Exercise" => false } },
+            { "Sunday" => { "Floss" => true, "Exercise" => true } }
+          ],
+          weekly: [21.43]
+        }
+        expect(stats).to have_attributes(expected)
       end
     end
   end

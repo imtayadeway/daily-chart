@@ -30,7 +30,17 @@ module DailyChart
     ).build.tap(&:save!)
   end
 
+  Stats = Struct.new(:daily, :weekly)
+
   def self.generate_stats(chart:)
-    Dashboard.new(chart)
+    dashboard = Dashboard.new(chart)
+    daily = dashboard.scorables.map do |scorable|
+      data = scorable.submission_details.each_with_object({}) do |sd, hsh|
+        hsh[sd.item.name] = sd.checked
+      end
+      { scorable.date.strftime("%A") => data }
+    end
+    weekly = dashboard.weekly_averages
+    Stats.new(daily, weekly)
   end
 end
