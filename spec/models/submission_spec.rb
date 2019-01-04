@@ -3,9 +3,7 @@ require "rails_helper"
 RSpec.describe Submission do
   describe "#percent" do
     it "returns the score as a percentage of max score" do
-      foo = Item.new(name: "foo")
-      bar = Item.new(name: "bar")
-      chart = create(:chart, items: [foo, bar])
+      chart = create(:chart, items_attributes: [{name: "foo"}, {name: "bar"}])
       submission = DailyChart::SubmissionFactory.create(
         chart: chart,
         data: {"foo" => true, "bar" => false}
@@ -26,7 +24,7 @@ RSpec.describe Submission do
     end
 
     it "is invalid when the data does not match the chart's items" do
-      chart = create(:chart, items: [Item.new(name: "foo")])
+      chart = create(:chart, items_attributes: [{name: "foo"}])
       submission = chart.submissions.new
       submission.submission_details.new(chart: chart, item: nil, checked: true)
       expect(submission).to be_invalid
@@ -35,7 +33,7 @@ RSpec.describe Submission do
 
   describe "date" do
     specify "only one submission can be made per day" do
-      chart = create(:chart, items: [Item.new(name: "foo")])
+      chart = create(:chart, items_attributes: [{name: "foo"}])
       chart.submissions.create(date: Date.parse("2018-01-01"))
 
       submission = chart.submissions.create(date: Date.parse("2018-01-01"))
@@ -44,7 +42,7 @@ RSpec.describe Submission do
     end
 
     specify "creating a submission sets today's date on it" do
-      chart = create(:chart, items: [Item.new(name: "foo")])
+      chart = create(:chart, items_attributes: [{name: "foo"}])
 
       Timecop.freeze do
         submission = chart.submissions.create
@@ -54,7 +52,7 @@ RSpec.describe Submission do
 
     specify "a date can optionally be passed to a submission" do
       date = 5.days.ago.to_date
-      chart = create(:chart, items: [Item.new(name: "foo")])
+      chart = create(:chart, items_attributes: [{name: "foo"}])
       submission = chart.submissions.create(date: date)
       expect(submission.date).to eq(date)
     end

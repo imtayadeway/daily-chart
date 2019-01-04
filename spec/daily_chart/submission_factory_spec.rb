@@ -31,8 +31,7 @@ RSpec.describe DailyChart::SubmissionFactory do
     end
 
     it "raises if a checked item cannot be found" do
-      boop = Item.new(name: "Boop")
-      chart = create(:chart, items: [boop])
+      chart = create(:chart, items_attributes: [{name: "Boop"}])
 
       expect {
         described_class.build(chart: chart, data: {"Beep" => true})
@@ -40,8 +39,7 @@ RSpec.describe DailyChart::SubmissionFactory do
     end
 
     it "raises if an unchecked items cannot be found" do
-      boop = Item.new(name: "Boop")
-      chart = create(:chart, items: [boop])
+      chart = create(:chart, items_attributes: [{name: "Boop"}])
 
       expect {
         described_class.build(chart: chart, data: {"Beep" => false})
@@ -50,8 +48,7 @@ RSpec.describe DailyChart::SubmissionFactory do
     end
 
     it "raises unless all the items are present" do
-      boop = Item.new(name: "Boop")
-      chart = create(:chart, items: [boop])
+      chart = create(:chart, items_attributes: [{name: "Boop"}])
 
       expect {
         described_class.build(chart: chart)
