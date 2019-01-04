@@ -6,7 +6,7 @@ class SubmissionsController < ApplicationController
   end
 
   def create
-    submission = DailyChart::SubmissionFactory.build(
+    submission = DailyChart.build_submission(
       chart: current_chart,
       data: submission_params.to_h.transform_values { |v| v == "1" }
     )

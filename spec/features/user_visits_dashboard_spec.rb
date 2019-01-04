@@ -14,10 +14,7 @@ RSpec.feature "user visits dashboard" do
     user = create(:user)
     chart = user.create_chart
     chart.items.create(name: "Exercise")
-    DailyChart::SubmissionFactory.create(
-      chart: chart,
-      data: {"Exercise" => true}
-    )
+    DailyChart.create_submission(chart: chart, data: {"Exercise" => true})
 
     visit dashboard_path(as: user)
 

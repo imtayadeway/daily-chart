@@ -1,10 +1,10 @@
 require "rails_helper"
 
 RSpec.describe DailyChart::SubmissionFactory do
-  describe ".build" do
+  describe "#build" do
     it "builds a submission" do
       chart = create(:chart)
-      submission = described_class.build(chart: chart)
+      submission = described_class.new(chart: chart).build
       expect(submission).to be_kind_of(Submission)
     end
 
@@ -13,10 +13,10 @@ RSpec.describe DailyChart::SubmissionFactory do
       beep = Item.new(name: "Beep")
       chart = create(:chart, items: [boop, beep])
 
-      submission = described_class.build(
+      submission = described_class.new(
         chart: chart,
         data: {"Boop" => true, "Beep" => false}
-      )
+      ).build
 
       expect(submission.submission_details)
         .to include(an_object_having_attributes(item: boop, checked: true),
@@ -26,7 +26,7 @@ RSpec.describe DailyChart::SubmissionFactory do
     it "accepts a date" do
       date = Date.new(2019, 1, 1)
       chart = create(:chart)
-      submission = described_class.build(chart: chart, date: date)
+      submission = described_class.new(chart: chart, date: date).build
       expect(submission.date).to eq date
     end
 
@@ -34,7 +34,7 @@ RSpec.describe DailyChart::SubmissionFactory do
       chart = create(:chart, items_attributes: [{name: "Boop"}])
 
       expect {
-        described_class.build(chart: chart, data: {"Beep" => true})
+        described_class.new(chart: chart, data: {"Beep" => true}).build
       }.to raise_error(/not found/)
     end
 
@@ -42,7 +42,7 @@ RSpec.describe DailyChart::SubmissionFactory do
       chart = create(:chart, items_attributes: [{name: "Boop"}])
 
       expect {
-        described_class.build(chart: chart, data: {"Beep" => false})
+        described_class.new(chart: chart, data: {"Beep" => false}).build
       }.to raise_error(/not found/)
 
     end
@@ -51,7 +51,7 @@ RSpec.describe DailyChart::SubmissionFactory do
       chart = create(:chart, items_attributes: [{name: "Boop"}])
 
       expect {
-        described_class.build(chart: chart)
+        described_class.new(chart: chart).build
       }.to raise_error(/missing/i)
     end
   end
