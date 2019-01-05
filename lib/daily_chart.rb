@@ -29,4 +29,13 @@ module DailyChart
       date: date
     ).build.tap(&:save!)
   end
+
+  Stats = Struct.new(:daily, :weekly)
+
+  def self.generate_stats(chart:)
+    scorables = Scorables.for(ScorableDays.for(chart), chart.submissions.to_a)
+    daily = scorables.last(7).map { |s| [s.weekday, s.percent] }
+    weekly = CalculatesAverages.for(scorables)
+    Stats.new(daily, weekly)
+  end
 end
