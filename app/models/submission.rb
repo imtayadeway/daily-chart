@@ -13,6 +13,7 @@ class Submission < ActiveRecord::Base
   end
 
   def percent
+    return 0.0 if max_score.zero?
     (score.to_f / max_score * 100.0).round(2)
   end
 

@@ -1,11 +1,25 @@
 module DailyChart
   class Stats
     def initialize(chart)
+      @chart = chart
       @scorables = Scorables.for(ScorableDays.for(chart), chart.submissions.to_a)
     end
 
     def daily
-      @scorables.last(7).map { |s| [s.weekday, s.percent] }
+      Submission.find_by_sql([<<~SQL, chart.id]).map { |s| [s.weekday, s.percent] }
+        WITH last_seven_days(date) AS (
+          VALUES #{daily_date_range.map { |d| "('#{d}'::date)"}.join(",")}
+        )
+        SELECT id,
+               COALESCE(score, 0) AS score,
+               chart_id,
+               lsd.date
+        FROM submissions AS s
+        RIGHT OUTER JOIN last_seven_days lsd
+          ON s.date = lsd.date
+          AND chart_id = ?
+        ORDER BY lsd.date
+      SQL
     end
 
     def weekly
@@ -21,6 +35,19 @@ module DailyChart
         end
         result.values.each { |v| v[-1] = (v[-1] / 0.07).round(2) }
       end.sort.to_a
+    end
+
+    private
+
+    attr_reader :chart
+
+    def daily_date_range
+      last_scorable_day = if chart.submission_pending?
+                            Time.zone.today - 1
+                          else
+                            Time.zone.today
+                          end
+      (last_scorable_day - 6)..last_scorable_day
     end
   end
 end
