@@ -62,7 +62,7 @@
  $(function () {
    $("#allTimeScores").highcharts({
      chart: {
-       type: "spline"
+       type: "area"
      },
      title: {
        text: "All Time",
@@ -72,7 +72,7 @@
        enabled: false
      },
      xAxis: {
-       categories: <%= @dashboard.weeks_all_time.to_s.html_safe %>,
+       categories: <%= 1.upto(@dashboard.weekly_percentages.size).to_a.to_s.html_safe %>,
        title: {
          text: "Week no."
        }
@@ -91,17 +91,18 @@
        valueSuffix: "%"
      },
      plotOptions: {
-       spline: {
-         lineWidth: 4,
-         marker: {
-           enabled: false
-         }
+       series: {
+         stacking: "normal"
        }
      },
-     series: [{
-       name: 'Score',
-       data: <%= @dashboard.weekly_averages %>
-     }]
+     series: [
+       <% @dashboard.weekly_percentages.each do |name, data| %>
+       {
+         name: "<%= name %>",
+         data: <%= data %>
+       },
+       <% end %>
+     ]
    });
  });
 </script>

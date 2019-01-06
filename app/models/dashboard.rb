@@ -15,17 +15,7 @@ class Dashboard
     stats.daily.map(&:second)
   end
 
-  def weekly_averages
+  def weekly_percentages
     stats.weekly
-  end
-
-  def weeks_all_time
-    EnumeratesWeeks.for(scorables.size)
-  end
-
-  private
-
-  def scorables
-    @scorables ||= Scorables.for(ScorableDays.for(chart), chart.submissions.to_a)
   end
 end
