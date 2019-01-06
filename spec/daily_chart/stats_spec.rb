@@ -25,7 +25,7 @@ RSpec.describe DailyChart::Stats do
       end
     end
 
-    xit "provides some data when no submissions have been made" do
+    it "provides some data when no submissions have been made" do
       Timecop.freeze("2018-01-01") do
         chart = create(:chart, items_attributes: [{ name: "Exercise" }])
 
