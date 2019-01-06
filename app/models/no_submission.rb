@@ -17,8 +17,4 @@ class NoSubmission
   def data
     {}
   end
-
-  def score_for(_item_name)
-    0
-  end
 end

@@ -16,10 +16,6 @@ class Submission < ActiveRecord::Base
     (score.to_f / max_score * 100.0).round(2)
   end
 
-  def score_for(item_name)
-    data[item_name].to_i
-  end
-
   private
 
   def set_score
